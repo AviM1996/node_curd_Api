@@ -1,3 +1,4 @@
+const { findById } = require("../model/app")
 const productModel=require("../model/app")
 
 const allProduct=(req,res)=>{
@@ -34,20 +35,14 @@ const createProduct=async(req,res)=>{
     }
 }
 
-// const editProduct=async(req,res)=>{
-//     try {
-//         const pid=await productModel.findByIdAndUpdate(req.params.id,{
-//             productName:req.body.productName,
-//             productPrice:req.body.productPrice,
-//             productDetails:req.body.productDetails,
-//             productBrand:req.body.productBrand
-//         })
-//         res.json(pid)
-//     } catch (error) {
-//         res.status(400).send({sucess:false,msg:"not edit"})
-//         console.log(error);
-//     }
-// }
+const singleProduct=async(req,res)=>{
+   productModel.findById({_id:req.params.id}).then((result)=>{
+    res.status(200).send({success:true,msg:"single product fatch",product:result,})
+   }).catch((err)=>{
+    console.log(err,"somthing error");
+    res.status(400).send({success:false,msg:"single product not fatch"})
+   })
+}
 
 
 const editProduct = (req, res) => {
@@ -107,5 +102,6 @@ module.exports={
     allProduct,
     createProduct,
     editProduct,
-    deleteProduct
+    deleteProduct,
+    singleProduct,
 }
